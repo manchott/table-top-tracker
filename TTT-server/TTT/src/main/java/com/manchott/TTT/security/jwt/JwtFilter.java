@@ -18,6 +18,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,7 +45,6 @@ public class JwtFilter extends OncePerRequestFilter {
       @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain
   ) throws ServletException, IOException {
-
     // 1. 토큰이 필요하지 않은 API URL에 대해서 배열로 구성한다.
     List<String> list = Arrays.asList(
         "/",
@@ -66,11 +66,8 @@ public class JwtFilter extends OncePerRequestFilter {
     // 3. Request Header 에서 토큰을 꺼냄
     String authToken = request.getHeader(HEADER_STRING);
     String accessToken = null;
-    // accessToken = jwtTokenUtil.generateAccessToken("manchott@naver.com");
-    // log.info(accessToken);
     String email = null;
-    // If header does not contain BEARER or is null delegate to Spring impl and exit
-    // 토큰이 없거나 헤더에 TOKEN_PREFIX 없으면 에러 발생시킨다.]
+    // 토큰이 없거나 헤더에 TOKEN_PREFIX 없으면 에러 발생시킨다.
     if (authToken == null || !authToken.startsWith(TOKEN_PREFIX)) {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.getWriter().write("Authentication token missing");
@@ -81,8 +78,8 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     // 4. 토큰을 validation 후 처리
-    // 4-1. accessToken validation
     TokenValidationResult accessTokenValidationResult = jwtTokenUtil.validateToken(accessToken);
+    // 4-1. accessToken 유효하지 않은 경우
     if (!accessTokenValidationResult.isValid()) {
       TokenError tokenError = accessTokenValidationResult.getTokenError();
       switch (tokenError) {
@@ -90,17 +87,16 @@ public class JwtFilter extends OncePerRequestFilter {
           String refreshToken = redisTokenService.getRefreshToken(accessToken);
           if (refreshToken != null) {
             TokenValidationResult refreshTokenValidationResult = jwtTokenUtil.validateToken(
-                accessToken);
+                refreshToken);
             if (!refreshTokenValidationResult.isValid()) {
               filterChain.doFilter(request, response);
               return;
             }
-            // accessToken 만료 & refreshToken 유효
-            // TODO: 토큰 새로 발급 후 설정
-            String newAccessToken = jwtTokenUtil.generateAccessToken(email);
-            String newRefreshToken = jwtTokenUtil.generateRefreshToken(email);
+            // accessToken 만료 & refreshToken 유효, 토큰 새로 발급 후 설정
+            HttpHeaders headers = userService.setHeader(email);
+            response.setHeader(HttpHeaders.AUTHORIZATION,
+                headers.getFirst(HttpHeaders.AUTHORIZATION));
             filterChain.doFilter(request, response);
-            return;
           }
         }
         case INVALID -> {
@@ -121,9 +117,8 @@ public class JwtFilter extends OncePerRequestFilter {
       }
     } else {
       log.info("Validated");
-      // [STEP.2-4] 사용자 아이디가 존재하는지에 대한 여부를 체크한다.
-      // TODO: user를 찾는다
-      // TODO: user가 없다면 404 리턴
+      // 4-2. accessToken 유요한 경우
+      // 사용자 계정이 존재하는지에 대한 여부를 체크한다.
       User user = null;
       user = userService.getUserByEmail(email);
       UserDetails userDetails = new CustomUserDetails(user);
@@ -133,7 +128,6 @@ public class JwtFilter extends OncePerRequestFilter {
       log.info(authentication.toString());
       SecurityContextHolder.getContext().setAuthentication(authentication);
       filterChain.doFilter(request, response);
-      log.info("EnD?");
     }
   }
 }
