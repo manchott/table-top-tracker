@@ -26,17 +26,16 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.httpBasic(HttpBasicConfigurer::disable)
+    http.httpBasic(HttpBasicConfigurer::disable) // 사용자의 아이디와 비밀번호를 이용하는 인증방법 사용x
         .cors(AbstractHttpConfigurer::disable)
-        .csrf(AbstractHttpConfigurer::disable)
+        .csrf(AbstractHttpConfigurer::disable)  // 어플 서비스라서 csrf 해제해도 됨
         .sessionManagement(configurer -> configurer.sessionCreationPolicy(
             SessionCreationPolicy.STATELESS)); // 토큰 기반 인증을 위해 세션 생성x
 
     http.authorizeHttpRequests(authorize -> authorize
-        .requestMatchers(HttpMethod.POST, "/user/login", "/user/join", "/user/signup", "/exercise",
-            "/user/test")
+        .requestMatchers(HttpMethod.POST, "/user/login", "/user/join")
         .permitAll()
-        .requestMatchers(HttpMethod.GET, "/user/nameCheck/**", "/user/namecheck", "/user/test")
+        .requestMatchers(HttpMethod.GET, "/user/test")
         .permitAll()
         .anyRequest().authenticated()
     );
