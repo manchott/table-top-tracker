@@ -1,9 +1,5 @@
 package com.manchott.TTT.user;
 
-import static com.manchott.TTT.security.jwt.JwtConstants.HEADER_STRING;
-import static com.manchott.TTT.security.jwt.JwtConstants.MONTH;
-import static com.manchott.TTT.security.jwt.JwtConstants.TOKEN_PREFIX;
-
 import com.manchott.TTT.security.jwt.JwtTokenUtil;
 import com.manchott.TTT.security.redis.RedisTokenService;
 import com.manchott.TTT.user.dto.JoinReqDto;
@@ -62,7 +58,7 @@ public class UserController {
     // }
     // 올바른 sns로 로그인 한 사용자는 토큰을 발급해주고 헤더에 넣어준 뒤 로그인시킨다
     LoginResDto loginResDto = userService.login(user, loginReqDto.getDeviceToken());
-    HttpHeaders headers = setHeader(email);
+    HttpHeaders headers = userService.setHeader(loginReqDto.getEmail());
 
     return new ResponseEntity<>(loginResDto, headers, HttpStatus.OK);
   }
@@ -77,7 +73,7 @@ public class UserController {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     LoginResDto loginResDto = userService.login(user, joinReqDto.getDeviceToken());
-    HttpHeaders headers = setHeader(joinReqDto.getEmail());
+    HttpHeaders headers = userService.setHeader(joinReqDto.getEmail());
     return new ResponseEntity<>(loginResDto, headers, HttpStatus.CREATED);
   }
 
@@ -94,14 +90,5 @@ public class UserController {
     return new ResponseEntity<>(tempDto, HttpStatus.OK);
   }
 
-  private HttpHeaders setHeader(String email) {
-    String accessToken = jwtTokenUtil.generateAccessToken(email);
-    String refreshToken = jwtTokenUtil.generateRefreshToken(email);
-    log.info(accessToken);
-    log.info(refreshToken);
-    redisTokenService.setValuesWithTimeout(accessToken, refreshToken, MONTH); // TODO: 추후에 기간 바꾸기
-    HttpHeaders headers = new HttpHeaders();
-    headers.set(HEADER_STRING, TOKEN_PREFIX + accessToken);
-    return headers;
-  }
+
 }
