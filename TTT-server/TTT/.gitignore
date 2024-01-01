@@ -38,7 +38,9 @@ out/
 
 ### OAuth ###
 application.yml
+application-develop.yml
 application-oauth.yml
+application-prod.yml
 
 ### Environment Variable ###
 .env
