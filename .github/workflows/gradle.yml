@@ -30,5 +30,16 @@ jobs:
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
+     # build한 후 프로젝트를 압축한다.
+    - name: Make zip file
+      run: zip -r ./ttt-deploy.zip .
+      shell: bash    
+    # Access Key와 Secret Access Key를 통해 권한을 확인한다.
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
     - name: Upload to S3
       run: aws s3 cp --region ap-northeast-2 ./ttt-deploy.zip s3://ttt-s3bucket/ttt-deploy.zip
