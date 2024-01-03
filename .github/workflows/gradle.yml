@@ -9,7 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "backend" ]
+    branches:
+    - backend
+    - master
 
 permissions:
   contents: read
@@ -26,8 +28,11 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
+    - name: init with Gradle
+      uses: gradle/gradle-build-action@v2
+    - run: gradle init
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+      uses: gradle/gradle-build-action@v2
       with:
         arguments: build
      # build한 후 프로젝트를 압축한다.
@@ -42,4 +47,4 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./ttt-deploy.zip s3://ttt-s3bucket/ttt-deploy.zip
+      run: aws s3 cp --region ap-northeast-2 ./ttt-deploy.zip s3://ttt-springboot-build/ttt-deploy.zip
