@@ -47,4 +47,4 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./ttt-deploy.zip s3://ttt-s3bucket/ttt-deploy.zip
+      run: aws s3 cp --region ap-northeast-2 ./ttt-deploy.zip s3://ttt-springboot-build/ttt-deploy.zip
