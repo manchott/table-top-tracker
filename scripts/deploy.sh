@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAR_PATH=/home/ec2-user/app/table-top-tracker/TTT-server
+JAR_PATH=/home/ec2-user/app/zip/TTT-server/TTT
 ROOT=/home/ec2-user/app
 DEPLOY_LOG_PATH=/home/ec2-user/app/deploy.log
 
