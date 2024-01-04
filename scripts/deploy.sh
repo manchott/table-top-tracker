@@ -1,6 +1,7 @@
 #!/bin/bash
 
 JAR_PATH=/home/ec2-user/app/zip/TTT-server/TTT/build/libs
+PROJECT_NAME=TTT
 ROOT=/home/ec2-user/app
 DEPLOY_LOG_PATH=/home/ec2-user/app/deploy.log
 
@@ -8,7 +9,7 @@ echo "> Build 파일 복사" >> $DEPLOY_LOG_PATH
 
 cp $JAR_PATH/*.jar $ROOT/
 
-CURRENT_PID=$(pgrep -fl ttt-springboot-webservice | grep jar | awk '{print $1}')
+CURRENT_PID=$(pgrep -f $PROJECT_NAME)
 
 echo "현재 구동중인 애플리게이션 pid: $CURRENT_PID" >> $DEPLOY_LOG_PATH
 
