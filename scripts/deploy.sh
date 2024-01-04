@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAR_PATH=/home/ec2-user/app/zip/TTT-server/TTT
+JAR_PATH=/home/ec2-user/app/zip/TTT-server/TTT/build/libs
 ROOT=/home/ec2-user/app
 DEPLOY_LOG_PATH=/home/ec2-user/app/deploy.log
 
