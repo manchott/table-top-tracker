@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:table_top_tracker/common/view/main_screen.dart';
 import 'package:table_top_tracker/common/view/splash_screen.dart';
 import 'package:table_top_tracker/game/view/game_screen.dart';
 import 'package:table_top_tracker/user/model/user_login.dart';
@@ -36,6 +37,13 @@ final routerProvider = Provider<GoRouter>((ref) {
           UserLogin userLogin =
               state.extra as UserLogin; // -> casting is important
           return SigninScreen(data: userLogin);
+        },
+      ),
+      GoRoute(
+        path: MainScreen.routeLocation,
+        name: MainScreen.routeName,
+        builder: (context, state) {
+          return MainScreen();
         },
       ),
       GoRoute(

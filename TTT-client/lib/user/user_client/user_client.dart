@@ -7,7 +7,7 @@ import '../model/user.dart';
 
 part 'user_client.g.dart';
 
-@RestApi(baseUrl: "http://localhost:8080/user")
+@RestApi(baseUrl: "http://3.37.77.245:8080/user")
 abstract class UserClient {
   factory UserClient(Dio dio, {String baseUrl}) = _UserClient;
 

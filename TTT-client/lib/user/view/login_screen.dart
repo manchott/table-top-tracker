@@ -3,7 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:table_top_tracker/game/view/game_screen.dart';
+import 'package:table_top_tracker/common/view/main_screen.dart';
 import 'package:table_top_tracker/user/model/user_login.dart';
 import 'package:table_top_tracker/user/user_client/user_client.dart';
 import 'package:table_top_tracker/user/view/signin_screen.dart';
@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print("로그인 완료");
       // TODO: resp과 provider 연결하기?
       if (!mounted) return;
-      context.goNamed(GameScreen.routeName);
+      context.goNamed(MainScreen.routeName);
     } on DioException catch (e) {
       final statusCode = e.response!.statusCode;
       if (statusCode == 404) {
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    context.goNamed(GameScreen.routeName);
+                    context.goNamed(MainScreen.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: PRIMARY_COLOR,
