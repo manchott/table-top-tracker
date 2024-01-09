@@ -10,7 +10,6 @@ name: Java CI with Gradle
 on:
   push:
     branches:
-    - backend
     - master
 
 permissions:
@@ -19,9 +18,9 @@ permissions:
 env:
   WORKING_DIRECTORY: ./TTT-server/TTT
   AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: ttt-springboot-build
-  CODE_DEPLOY_APPLICATION_NAME: ttt-springboot-webservice
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: ttt-springboot-webservice-group
+  S3_BUCKET_NAME: ttt-s3bucket
+  CODE_DEPLOY_APPLICATION_NAME: ttt-codedeploy-application
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: ttt-codedeploy-group
   
 jobs:
   deploy:
