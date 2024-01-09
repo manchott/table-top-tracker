@@ -44,13 +44,11 @@ jobs:
     
     - name: Make application.yml
       run: |
-        cd ./src/main
-        mkdir resources
-        cd ./resources
+        mkdir -p ./src/main/resources
         touch ./application-oauth.yml
         touch ./application-prod.yml
-        echo "$APPLICATION_OAUTH" > ./application-oauth.yml
-        echo "$APPLICATION_PROD" > ./application-prod.yml
+        echo -e "$APPLICATION_OAUTH" > ./src/main/resources/application-oauth.yml
+        echo -e "$APPLICATION_PROD" > ./src/main/resources/application-prod.yml
       env:
         APPLICATION_OAUTH: ${{ secrets.APPLICATION_OAUTH }}
         APPLICATION_PROD: ${{ secrets.APPLICATION_PROD }}
