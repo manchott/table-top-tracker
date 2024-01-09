@@ -42,6 +42,20 @@ jobs:
         restore-keys: |
                 ${{ runner.os }}-gradle-
     
+    - name: Make application.yml
+        run: |
+          cd ./src/main
+          mkdir resources
+          cd ./resources
+          touch ./application-oauth.yml
+          touch ./application-prod.yml
+          echo "$APPLICATION_OAUTH" > ./application-oauth.yml
+          echo "$APPLICATION_PROD" > ./application-prod.yml
+        env:
+          APPLICATION_OAUTH: ${{ secrets.APPLICATION_OAUTH }}
+          APPLICATION_PROD: ${{ secrets.APPLICATION_PROD }}
+        shell: bash
+
     - name: Build with Gradle
       run: ./gradlew clean build
       working-directory: ${{ env.WORKING_DIRECTORY }}
