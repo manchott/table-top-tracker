@@ -1,8 +1,6 @@
 #!/bin/bash
 
-JAR_PATH=/home/ec2-user/app/zip/TTT-server/TTT/build/libs
-PROJECT_NAME=TTT
-ROOT=/home/ec2-user/app
+ROOT=/home/ec2-user/app/build
 DEPLOY_LOG_PATH=/home/ec2-user/app/deploy.log
 DOCKER_APP_NAME=spring
 
