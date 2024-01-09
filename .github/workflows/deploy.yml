@@ -58,9 +58,8 @@ jobs:
         cp ./appspec.yml ./deploy/
         cp ./docker/Dockerfile ./deploy/
         cp ./scripts/*.sh ./deploy/
-        cp ./build/libs/*.jar ./deploy/
+        cp $WORKING_DIRECTORY/build/libs/*.jar ./deploy/
         zip -r -qq -j ./spring-build.zip ./deploy
-      working-directory: ${{ env.WORKING_DIRECTORY }}
         
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
