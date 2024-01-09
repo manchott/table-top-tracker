@@ -1,0 +1,63 @@
+name: Backend CI/CD - build
+
+on:
+  push:
+    branches:
+    - develop
+
+permissions:
+  contents: read
+
+env:
+  WORKING_DIRECTORY: ./TTT-server/TTT
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET_NAME: ttt-s3bucket
+  CODE_DEPLOY_APPLICATION_NAME: ttt-codedeploy-application
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: ttt-codedeploy-group
+  
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: prod
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+    
+    # Gradle을 캐싱해둡니다 -> 빌드 속도가 증가하는 효과가 있습니다.
+    - name: Cache Gradle
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+                ${{ runner.os }}-gradle-
+    
+    - name: Build with Gradle
+      run: ./gradlew clean build
+      working-directory: ${{ env.WORKING_DIRECTORY }}
+
+    # Build는 AWS에 접근, 배포하지 않는다
+
+    # Slack 알람 발송
+    - name: Notification to Slcak
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: general
+        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 배포 결과 => ${{ job.status }}
+        SLACK_TITLE: 배포 결과 알람
+        SLACK_USERNAME: Notification-Bot
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # 이 구문을 추가해야 빌드 성공 실패와 상관없이 동작합니다.
+      if: always()
