@@ -43,10 +43,7 @@ jobs:
                 ${{ runner.os }}-gradle-
     
     - name: Build with Gradle
-      run: |
-        ./gradlew clean build \
-        -Dspring.config.location=/home/ec2-user/app/config/application-prod.yml,/home/ec2-user/app/config/application-oauth.yml \
-        -Dspring.profiles.active=prod
+      run: ./gradlew clean build
       working-directory: ${{ env.WORKING_DIRECTORY }}
 
     # zip file 생성
@@ -82,7 +79,7 @@ jobs:
             --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
             --s3-location bucket=$S3_BUCKET_NAME,key=spring-build.zip,bundleType=zip
     # Slack 알람 발송
-    - name: Notification to Slcak
+    - name: Notification to Slack
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_CHANNEL: general

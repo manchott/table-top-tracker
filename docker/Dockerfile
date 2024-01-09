@@ -7,4 +7,4 @@ ARG JAR_FILE=build/libs/*.jar
 # JAR_FILE 경로에 해당하는 파일을 Docker 이미지 내부로 복사
 COPY ${JAR_FILE} ttt-springboot.jar
 # Docker 컨테이너가 시작될 때 실행할 명령 지정
-ENTRYPOINT ["java","-jar","/ttt-springboot.jar"]
+ENTRYPOINT ["java","-jar","/ttt-springboot.jar","-Dspring.config.location=/home/ec2-user/app/config/application-prod.yml,/home/ec2-user/app/config/application-oauth.yml","-Dspring.profiles.active=prod"]
