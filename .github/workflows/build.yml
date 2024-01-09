@@ -49,7 +49,7 @@ jobs:
     # Build는 AWS에 접근, 배포하지 않는다
 
     # Slack 알람 발송
-    - name: Notification to Slcak
+    - name: Notification to Slack
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_CHANNEL: general
