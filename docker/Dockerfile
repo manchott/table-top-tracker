@@ -2,9 +2,7 @@
 FROM openjdk:17-jdk
 # 관리자 이메일
 LABEL maintainer="manchott@naver.com"
-# Dockerfile 내에서 사용할 변수 JAR_FILE
-ARG JAR_FILE=build/libs/*.jar
-# JAR_FILE 경로에 해당하는 파일을 Docker 이미지 내부로 복사
-COPY ${JAR_FILE} ttt-springboot.jar
+# jar 파일 복사
+COPY /*.jar ttt-springboot.jar
 # Docker 컨테이너가 시작될 때 실행할 명령 지정
 ENTRYPOINT ["java","-jar","/ttt-springboot.jar","-Dspring.config.location=/home/ec2-user/app/config/application-prod.yml,/home/ec2-user/app/config/application-oauth.yml","-Dspring.profiles.active=prod"]
