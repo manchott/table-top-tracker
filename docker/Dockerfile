@@ -5,4 +5,4 @@ LABEL maintainer="manchott@naver.com"
 # jar 파일 복사
 COPY /*.jar ttt-springboot.jar
 # Docker 컨테이너가 시작될 때 실행할 명령 지정
-ENTRYPOINT ["java", "-jar", "/ttt-springboot.jar", "-Dspring.config.location=/home/ec2-user/app/config/application-prod.yml", "-Dspring.config.location=/home/ec2-user/app/config/application-oauth.yml", "-Dspring.profiles.active=prod"]
+ENTRYPOINT ["java", "-jar", "/ttt-springboot.jar"]
