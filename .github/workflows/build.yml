@@ -41,18 +41,6 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |
                 ${{ runner.os }}-gradle-
-    
-    - name: Make application.yml
-      run: |
-        mkdir -p ./src/main/resources
-        touch ./application-oauth.yml
-        touch ./application-prod.yml
-        echo -e "$APPLICATION_OAUTH" > ./src/main/resources/application-oauth.yml
-        echo -e "$APPLICATION_PROD" > ./src/main/resources/application-prod.yml
-      env:
-        APPLICATION_OAUTH: ${{ secrets.APPLICATION_OAUTH }}
-        APPLICATION_PROD: ${{ secrets.APPLICATION_PROD }}
-      shell: bash
 
     - name: Build with Gradle
       run: ./gradlew clean build
