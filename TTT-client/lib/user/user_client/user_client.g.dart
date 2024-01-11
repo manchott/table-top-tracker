@@ -12,9 +12,7 @@ class _UserClient implements UserClient {
   _UserClient(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'http://3.37.77.245:8080/user';
-  }
+  });
 
   final Dio _dio;
 
