@@ -58,46 +58,43 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                Text("Game Screen"),
-                ElevatedButton(
-                  onPressed: () {
-                    if (!mounted) return;
-                    context.goNamed(LoginScreen.routeName);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: PRIMARY_COLOR,
-                  ),
-                  child: Text(
-                    'Game Page',
-                  ),
+    return Container(
+      color: Colors.transparent,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  if (!mounted) return;
+                  context.goNamed(LoginScreen.routeName);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: PRIMARY_COLOR,
                 ),
-                ElevatedButton(
-                  onPressed: getBggInfo,
-                  child: Text('get bgg'),
+                child: Text(
+                  'Game Page',
                 ),
-                imageUrl.isNotEmpty
-                    ? Image.network(
-                        imageUrl,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return CircularProgressIndicator();
-                        },
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(Icons.error);
-                        },
-                      )
-                    : Text('Press the button to load an image'),
-                Text(jsonDataInScreen)
-              ],
-            ),
+              ),
+              ElevatedButton(
+                onPressed: getBggInfo,
+                child: Text('get bgg'),
+              ),
+              imageUrl.isNotEmpty
+                  ? Image.network(
+                      imageUrl,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return CircularProgressIndicator();
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(Icons.error);
+                      },
+                    )
+                  : Text('Press the button to load an image'),
+              Text(jsonDataInScreen)
+            ],
           ),
         ),
       ),

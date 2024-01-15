@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:retrofit/http.dart';
 
@@ -10,10 +10,15 @@ String baseUrl = dotenv.env['BASE_URL']!;
 abstract class BggClient {
   factory BggClient(Dio dio) {
     final baseUrl = dotenv.env['BASE_URL'];
-    return _BggClient(dio,
-        baseUrl: 'https://boardgamegeek.com/xmlapi2/thing?id=365717');
+    return _BggClient(dio, baseUrl: 'https://boardgamegeek.com');
   }
 
-  @GET('/')
+  @GET('/xmlapi2/thing?id=2944')
   Future<String> getBgg();
+
+  @Headers(<String, String>{'Accept': 'application/json'})
+  @GET('/search/boardgame?nosession=1&showcount=20')
+  Future<String> searchBgg(
+    @Query('q') String query,
+  );
 }

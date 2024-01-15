@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:table_top_tracker/game/view/game_screen.dart';
+
+import '../../game/view/search_game_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,7 +19,9 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  List<String> tabTitles = ['보드게임', '로그', '친구', '편의도구', '마이페이지'];
   static const List<Widget> _widgetOptions = <Widget>[
+    GameScreen(),
     Text(
       'Index 0: Home',
       style: optionStyle,
@@ -33,7 +38,6 @@ class _MainScreenState extends State<MainScreen> {
       'Index 3: Business',
       style: optionStyle,
     ),
-    GameScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -46,9 +50,14 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
+        title: Text(tabTitles[_selectedIndex]),
+        actions: _buildAppBarActions(),
+        centerTitle: false,
+        // backgroundColor: Colors.transparent,
+        titleTextStyle: const TextStyle(color: Colors.black),
+        elevation: 0.0,
       ),
-      body: Center(
+      body: SafeArea(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -81,5 +90,23 @@ class _MainScreenState extends State<MainScreen> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  List<Widget> _buildAppBarActions() {
+    if ([0, 2].contains(_selectedIndex)) {
+      // Show search icon only when in the Home tab
+      return [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            if (!mounted) return;
+            context.pushNamed(SearchGameScreen.routeName);
+          },
+        ),
+      ];
+    } else {
+      // Don't show any actions in other tabs
+      return [];
+    }
   }
 }

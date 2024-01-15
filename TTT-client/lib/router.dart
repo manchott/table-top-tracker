@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:table_top_tracker/common/view/main_screen.dart';
 import 'package:table_top_tracker/common/view/splash_screen.dart';
 import 'package:table_top_tracker/game/view/game_screen.dart';
+import 'package:table_top_tracker/game/view/search_game_screen.dart';
 import 'package:table_top_tracker/user/model/user_login.dart';
 import 'package:table_top_tracker/user/view/login_screen.dart';
 import 'package:table_top_tracker/user/view/signin_screen.dart';
@@ -14,7 +15,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: _key,
     debugLogDiagnostics: true,
-    initialLocation: LoginScreen.routeLocation,
+    initialLocation: SearchGameScreen.routeLocation,
     routes: [
       GoRoute(
         path: SplashScreen.routeLocation,
@@ -51,6 +52,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: GameScreen.routeName,
         builder: (context, state) {
           return GameScreen();
+        },
+      ),
+      GoRoute(
+        path: SearchGameScreen.routeLocation,
+        name: SearchGameScreen.routeName,
+        builder: (context, state) {
+          return SearchGameScreen();
         },
       ),
     ],
