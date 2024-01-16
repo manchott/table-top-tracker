@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:table_top_tracker/game/view/game_screen.dart';
 
 import '../../game/view/search_game_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({Key? key, required this.navigationShell}) : super(key: key);
+  final StatefulNavigationShell navigationShell;
 
   static String get routeName => 'main';
 
@@ -16,84 +16,46 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   List<String> tabTitles = ['보드게임', '로그', '친구', '편의도구', '마이페이지'];
-  static const List<Widget> _widgetOptions = <Widget>[
-    GameScreen(),
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Business',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(tabTitles[_selectedIndex]),
-        actions: _buildAppBarActions(),
-        centerTitle: false,
-        // backgroundColor: Colors.transparent,
-        titleTextStyle: const TextStyle(color: Colors.black),
-        elevation: 0.0,
-      ),
-      body: SafeArea(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: SafeArea(child: widget.navigationShell),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.videogame_asset),
-            label: 'Home',
+            label: '게임',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.edit_note_rounded),
-            label: 'Business',
+            label: '로그',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people_alt),
-            label: 'ass',
+            label: '친구',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.auto_fix_high),
-            label: 'as',
+            label: '도구',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people_alt),
-            label: 'School',
+            label: '마이페이지',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: widget.navigationShell.currentIndex,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.amber[800],
         unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+        onTap: (int index) => _onTap(context, index),
       ),
     );
   }
 
   List<Widget> _buildAppBarActions() {
-    if ([0, 2].contains(_selectedIndex)) {
+    if ([0, 2].contains(widget.navigationShell.currentIndex)) {
       // Show search icon only when in the Home tab
       return [
         IconButton(
@@ -108,5 +70,14 @@ class _MainScreenState extends State<MainScreen> {
       // Don't show any actions in other tabs
       return [];
     }
+  }
+
+  /// Navigate to the current location of the branch at the provided index when
+  /// tapping an item in the BottomNavigationBar.
+  void _onTap(BuildContext context, int index) {
+    widget.navigationShell.goBranch(
+      index,
+      initialLocation: index == widget.navigationShell.currentIndex,
+    );
   }
 }

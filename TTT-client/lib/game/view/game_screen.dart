@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_top_tracker/bgg/client/bgg_client.dart';
+import 'package:table_top_tracker/game/view/search_game_screen.dart';
 import 'package:table_top_tracker/user/view/login_screen.dart';
 import 'package:xml2json/xml2json.dart';
 
@@ -58,9 +59,24 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      child: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('보드게임'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              GoRouter.of(context).go(
+                  '${GameScreen.routeLocation}/${SearchGameScreen.routeName}');
+            },
+            icon: Icon(Icons.search),
+          )
+        ],
+        centerTitle: false,
+        // backgroundColor: Colors.transparent,
+        titleTextStyle: const TextStyle(color: Colors.black),
+        elevation: 0.0,
+      ),
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(

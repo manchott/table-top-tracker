@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:table_top_tracker/common/view/main_screen.dart';
 import 'package:table_top_tracker/user/model/user_login.dart';
 import 'package:table_top_tracker/user/view/login_screen.dart';
 
 import '../../common/const/colors.dart';
+import '../../common/view/main_screen.dart';
 import '../client/user_client.dart';
 import '../model/user_join.dart';
 
