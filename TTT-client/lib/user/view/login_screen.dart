@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:table_top_tracker/game/view/game_screen.dart';
+import 'package:table_top_tracker/user/client/user_client.dart';
 import 'package:table_top_tracker/user/model/user_login.dart';
-import 'package:table_top_tracker/user/user_client/user_client.dart';
 import 'package:table_top_tracker/user/view/signin_screen.dart';
 
 import '../../common/const/colors.dart';
@@ -140,7 +140,7 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Text(
-      "Welcome to\n\tTable\n\t\tTop\n\t\t\tTracker",
+      "Table Top Tracker",
       style: TextStyle(
           fontSize: 34, fontWeight: FontWeight.w500, color: Colors.black),
     );
