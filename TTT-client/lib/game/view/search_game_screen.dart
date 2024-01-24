@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_top_tracker/common/widget/clickable_list_tile.dart';
 import 'package:table_top_tracker/common/widget/search_bar.dart';
@@ -39,7 +40,7 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
   void getBggInfo() async {
     try {
       final resp = await bggClient.searchBgg(_controller.text);
-      print(resp);
+      // print(resp);
       setState(() {
         screenShow = resp;
         jsonData = json.decode(resp);
@@ -68,31 +69,34 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
             jsonData.isEmpty
                 ? Center(child: Text('Empty'))
                 : Expanded(
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return ClickableListTile(
-                                index: index,
-                                name: jsonData["items"][index]["name"],
-                                id: jsonData["items"][index]["id"],
-                                yearpublished: jsonData["items"][index]
-                                    ["yearpublished"],
-                                onTap: () {
-                                  setState(() {
-                                    selectedId = jsonData["items"][index]["id"];
-                                  });
-                                  GoRouter.of(context).push(
-                                      '${GameScreen.routeLocation}${GameDetailScreen.routeLocation}/${selectedId}');
-                                  print('ListTile $selectedId clicked!');
-                                },
-                              );
-                            },
-                            itemCount: jsonData["items"].length,
+                    child: SlidableAutoCloseBehavior(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return ClickableListTile(
+                                  index: index,
+                                  name: jsonData["items"][index]["name"],
+                                  id: jsonData["items"][index]["id"],
+                                  yearpublished: jsonData["items"][index]
+                                      ["yearpublished"],
+                                  onTap: () {
+                                    setState(() {
+                                      selectedId =
+                                          jsonData["items"][index]["id"];
+                                    });
+                                    GoRouter.of(context).push(
+                                        '${GameScreen.routeLocation}${GameDetailScreen.routeLocation}/${selectedId}');
+                                    print('ListTile $selectedId clicked!');
+                                  },
+                                );
+                              },
+                              itemCount: jsonData["items"].length,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
           ],

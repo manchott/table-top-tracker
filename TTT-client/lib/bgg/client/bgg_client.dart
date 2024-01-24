@@ -6,15 +6,12 @@ part 'bgg_client.g.dart';
 
 String baseUrl = dotenv.env['BASE_URL']!;
 
-@RestApi(baseUrl: "")
+@RestApi(baseUrl: "https://boardgamegeek.com")
 abstract class BggClient {
-  factory BggClient(Dio dio) {
-    final baseUrl = dotenv.env['BASE_URL'];
-    return _BggClient(dio, baseUrl: 'https://boardgamegeek.com');
-  }
+  factory BggClient(Dio dio, {String baseUrl}) = _BggClient;
 
-  @GET('/xmlapi2/thing?id=2944')
-  Future<String> getBgg();
+  @GET('/xmlapi2/thing?id={id}&stats=1')
+  Future<String> getBgg(@Path('id') String id);
 
   @Headers(<String, String>{'Accept': 'application/json'})
   @GET('/search/boardgame?nosession=1&showcount=20')

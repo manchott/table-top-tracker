@@ -3,12 +3,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:table_top_tracker/game/view/game_screen.dart';
 import 'package:table_top_tracker/user/client/user_client.dart';
 import 'package:table_top_tracker/user/model/user_login.dart';
 import 'package:table_top_tracker/user/view/signin_screen.dart';
 
 import '../../common/const/colors.dart';
-import '../../common/view/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print("로그인 완료");
       // TODO: resp과 provider 연결하기?
       if (!mounted) return;
-      context.goNamed(MainScreen.routeName);
+      context.goNamed(GameScreen.routeName);
     } on DioException catch (e) {
       final statusCode = e.response!.statusCode;
       if (statusCode == 404) {
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    context.goNamed(MainScreen.routeName);
+                    context.goNamed(GameScreen.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: PRIMARY_COLOR,
@@ -140,7 +140,7 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Text(
-      "Welcome to\n\tTable\n\t\tTop\n\t\t\tTracker",
+      "Table Top Tracker",
       style: TextStyle(
           fontSize: 34, fontWeight: FontWeight.w500, color: Colors.black),
     );

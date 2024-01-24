@@ -36,14 +36,13 @@ class _GameScreenState extends State<GameScreen> {
 
   void getBggInfo() async {
     try {
-      final resp = await bggClient.getBgg();
+      final resp = await bggClient.getBgg("317990");
       // print(resp);
       final Xml2Json xml2Json = Xml2Json();
       xml2Json.parse(resp);
       final Map<String, dynamic> jsonMap = json.decode(xml2Json.toBadgerfish());
-      print(jsonMap);
       final BggDetail dataModel = BggDetail.fromJson(jsonMap);
-      print(dataModel.nameKR);
+      print(dataModel.thumbnail);
       print("??");
       setState(() {
         jsonDataInScreen = dataModel.nameKR;

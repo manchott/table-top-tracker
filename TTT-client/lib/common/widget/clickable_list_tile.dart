@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ClickableListTile extends StatelessWidget {
   final int index;
@@ -19,10 +20,41 @@ class ClickableListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: ListTile(
-        title: Text(name),
-        trailing: Text(yearpublished.toString()),
+      child: Slidable(
+        key: ValueKey(id),
+        endActionPane: ActionPane(
+          motion: ScrollMotion(),
+          children: [
+            SlidableAction(
+              autoClose: false,
+              onPressed: (context) {
+                addToFav(id);
+              },
+              backgroundColor: Color(0xFF7BC043),
+              foregroundColor: Colors.white,
+              icon: Icons.archive,
+              label: '즐겨찾기',
+            ),
+            SlidableAction(
+              onPressed: addToMine,
+              backgroundColor: Color(0xFF0392CF),
+              foregroundColor: Colors.white,
+              icon: Icons.save,
+              label: '소유 게임',
+            ),
+          ],
+        ),
+        child: ListTile(
+          title: Text(name),
+          trailing: Text(yearpublished.toString()),
+        ),
       ),
     );
   }
 }
+
+void addToFav(String id) {
+  print(id);
+}
+
+void addToMine(BuildContext context) {}
