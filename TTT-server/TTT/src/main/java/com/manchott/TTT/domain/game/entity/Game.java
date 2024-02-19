@@ -3,6 +3,7 @@ package com.manchott.TTT.domain.game.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class Game {
     private String playingTime;
     private String minPlayTime;
     private String maxPlayTime;
+    private LocalDateTime lastUpdateTime;
 
     @OneToMany(mappedBy = "game")
     private List<GameCategory> gameCategoryList = new ArrayList<>();
@@ -34,7 +36,7 @@ public class Game {
     private List<GameMechanic> gameMechanicList = new ArrayList<>();
 
     @Builder
-    public Game(Long gameId, String type, String thumbnail, String nameEN, String nameKR, String weight, String description, String yearPublished, String minPlayers, String maxPlayers, String playingTime, String minPlayTime, String maxPlayTime) {
+    public Game(Long gameId, String type, String thumbnail, String nameEN, String nameKR, String weight, String description, String yearPublished, String minPlayers, String maxPlayers, String playingTime, String minPlayTime, String maxPlayTime, LocalDateTime lastUpdateTime) {
         this.gameId = gameId;
         this.type = type;
         this.thumbnail = thumbnail;
@@ -48,5 +50,6 @@ public class Game {
         this.playingTime = playingTime;
         this.minPlayTime = minPlayTime;
         this.maxPlayTime = maxPlayTime;
+        this.lastUpdateTime = lastUpdateTime;
     }
 }
