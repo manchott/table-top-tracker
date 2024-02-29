@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -30,6 +29,13 @@ public class User {
   private String deviceToken; // 핸드폰 정보
 
   private String nickname;
+  @Builder
+  public User(String email, String googleId, String deviceToken, String nickname) {
+    this.email = email;
+    this.googleId = googleId;
+    this.deviceToken = deviceToken;
+    this.nickname = nickname;
+  }
 
   public void updateGoogleId(String googleId) {
     this.googleId = googleId;

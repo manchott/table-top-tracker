@@ -22,8 +22,7 @@ public class GameCategory {
     private Category category;
 
     @Builder
-    public GameCategory(Long gameCategoryId, Game game, Category category) {
-        this.gameCategoryId = gameCategoryId;
+    public GameCategory(Game game, Category category) {
         this.game = game;
         this.category = category;
     }

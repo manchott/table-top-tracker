@@ -52,4 +52,9 @@ public class Game {
         this.maxPlayTime = maxPlayTime;
         this.lastUpdateTime = lastUpdateTime;
     }
+
+    public void updateWeight(String weight){
+        this.weight = weight;
+    }
+
 }

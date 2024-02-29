@@ -1,4 +1,4 @@
-package com.manchott.TTT.domain.game;
+package com.manchott.TTT.domain.game.repository;
 
 import com.manchott.TTT.domain.game.entity.Game;
 import org.springframework.data.jpa.repository.JpaRepository;

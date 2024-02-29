@@ -23,8 +23,7 @@ public class GameMechanic {
     private Mechanic mechanic;
 
     @Builder
-    public GameMechanic(Long gameMechanicId, Game game, Mechanic mechanic) {
-        this.gameMechanicId = gameMechanicId;
+    public GameMechanic(Game game, Mechanic mechanic) {
         this.game = game;
         this.mechanic = mechanic;
     }
