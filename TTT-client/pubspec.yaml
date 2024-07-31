@@ -50,6 +50,9 @@ dependencies:
   easy_debounce: ^2.0.3
   html_unescape: ^2.0.0
   flutter_slidable: ^3.0.1
+  cloud_firestore: ^4.14.0
+  riverpod: ^2.5.0
+  editable: ^2.0.0
 #  firebase_auth: ^4.15.0
 
 dev_dependencies:

@@ -2,13 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:table_top_tracker/game/view/game_screen.dart';
 import 'package:table_top_tracker/user/model/user_login.dart';
 import 'package:table_top_tracker/user/view/login_screen.dart';
 
 import '../../common/const/colors.dart';
-import '../../common/view/main_screen.dart';
 import '../client/user_client.dart';
 import '../model/user_join.dart';
+import '../provider/user_provider.dart';
 
 class SigninScreen extends ConsumerStatefulWidget {
   const SigninScreen({Key? key, required this.data}) : super(key: key);
@@ -50,7 +51,9 @@ class _SigninScreenState extends ConsumerState<SigninScreen> {
       print('가입 완료');
       // TODO: resp과 provider 연결하기?
       if (!mounted) return;
-      context.goNamed(MainScreen.routeName);
+      // userId provider로 제공
+      ref.read(userProvider.notifier).update((state) => resp.userId.toString());
+      context.goNamed(GameScreen.routeName);
     } on DioException catch (e) {
       // Handle Dio error
       print('DioError: $e');

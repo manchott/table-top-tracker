@@ -1,16 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:table_top_tracker/game/view/game_screen.dart';
+import 'package:table_top_tracker/test_firebase/test_screen.dart';
 import 'package:table_top_tracker/user/client/user_client.dart';
 import 'package:table_top_tracker/user/model/user_login.dart';
 import 'package:table_top_tracker/user/view/signin_screen.dart';
 
 import '../../common/const/colors.dart';
+import '../provider/user_provider.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   static String get routeName => 'login';
@@ -18,10 +21,10 @@ class LoginScreen extends StatefulWidget {
   static String get routeLocation => '/login';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   late UserClient userClient;
 
   @override
@@ -47,12 +50,17 @@ class _LoginScreenState extends State<LoginScreen> {
         deviceToken: deviceToken!);
 
     try {
+      print("Try!!!!");
       final resp = await userClient.login(userLogin);
-      print("로그인 완료");
+      print(resp.userId);
       // TODO: resp과 provider 연결하기?
       if (!mounted) return;
-      context.goNamed(GameScreen.routeName);
+      // userId provider로 제공
+      ref.read(userProvider.notifier).update((state) => resp.userId.toString());
+      context.goNamed(TestScreen.routeName);
     } on DioException catch (e) {
+      print("WWWW");
+      print(e);
       final statusCode = e.response!.statusCode;
       if (statusCode == 404) {
         // 신규 가입
@@ -86,9 +94,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 50,
                 ),
-                Image.asset(
-                  'asset/img/boardgames.png',
-                ),
+                // Image.asset(
+                //   'asset/img/boardgames.png',
+                // ),
                 const SizedBox(
                   height: 50,
                 ),
